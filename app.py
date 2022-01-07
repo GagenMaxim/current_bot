@@ -1,16 +1,16 @@
 import logging
 
-from aiogram import executor
+import middlewares, filters, handlers  # noqa
+
+from aiogram import executor, Dispatcher
 
 from loader import dp, db
-import middlewares, filters, handlers
 from utils.notify_admins import on_startup_notify
 
 
-async def on_startup(dispatcher):
+async def on_startup(dispatcher: Dispatcher):
     # Уведомляет про запуск
     logging.info("Создаем подключение к базе данных")
-    await db.create()
 
     await db.drop_users()
 
@@ -21,5 +21,9 @@ async def on_startup(dispatcher):
     await on_startup_notify(dispatcher)
 
 
+async def on_shutdown(_: Dispatcher):
+    await db.close()
+
+
 if __name__ == '__main__':
-    executor.start_polling(dp, on_startup=on_startup)
+    executor.start_polling(dp, on_startup=on_startup, on_shutdown=on_shutdown)
