@@ -2,6 +2,7 @@ import asyncpg
 from aiogram import types
 from aiogram.dispatcher.filters.builtin import CommandStart
 
+from handlers.users.currency_rate import rate
 from loader import dp, db
 
 
@@ -28,10 +29,5 @@ async def bot_start(message: types.Message):
         "\n".join(
             [
                 f'Привет, {message.from_user.full_name}!',
-                f'Ты был занесен в базу',
-                f'В базе <b>{count}</b> пользователей',
-                "",
-                f"<code>User: {username} - {full_name}",
-                f"{user_data=}",
-                f"{user_data_dict=}</code>"
+                f'Текущий курс ЦБ РФ: {rate.name} {rate.rate}',
             ]))
