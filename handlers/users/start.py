@@ -2,7 +2,7 @@ import asyncpg
 from aiogram import types
 from aiogram.dispatcher.filters.builtin import CommandStart
 
-from handlers.users.currency_rate import rate
+from handlers.users.currency_rate import rate_eur, rate_usd
 from loader import dp, db
 
 
@@ -29,5 +29,7 @@ async def bot_start(message: types.Message):
         "\n".join(
             [
                 f'Привет, {message.from_user.full_name}!',
-                f'Текущий курс ЦБ РФ: {rate.name} {rate.rate}',
-            ]))
+                f'\nТекущий курс ЦБ РФ: '
+                f'\n<strong>{rate_usd.name}</strong>: {rate_usd.rate}',
+                f'<strong>{rate_eur.name}</strong>: {rate_eur.rate}'
+            ]), parse_mode=types.ParseMode.HTML)
