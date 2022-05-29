@@ -25,10 +25,10 @@ def get_rates():
 
     data = xmltodict.parse(resp)
     # Ищем по @ID
-    secrion_id = 'R01235'
+    section_id = 'R01235'
 
     for item in data['ValCurs']['Valute']:
-        if item['@ID'] == secrion_id:
+        if item['@ID'] == section_id:
             r = Rate(
                 name = item['CharCode'],
                 rate = str_to_float(item['Value']),
